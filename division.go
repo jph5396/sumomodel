@@ -1,6 +1,10 @@
 package sumomodel
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+	"regexp"
+)
 
 type (
 	//Division Represents the a division of sumo wrestlers.
@@ -108,4 +112,19 @@ func GetDivisionList(list []string) ([]Division, error) {
 	}
 
 	return divList, nil
+}
+
+// GetDivisionByRank Checks the provided rank string
+func GetDivisionByRank(rank string) (Division, error) {
+	for _, div := range shortForm {
+
+		if match, err := regexp.MatchString(div.RankRegex, rank); match {
+			if err != nil {
+				return Division{}, err
+			}
+			return div, nil
+		}
+	}
+
+	return Division{}, fmt.Errorf("%v does nots match the regex pattern for any division", rank)
 }
