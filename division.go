@@ -114,7 +114,8 @@ func GetDivisionList(list []string) ([]Division, error) {
 	return divList, nil
 }
 
-// GetDivisionByRank Checks the provided rank string
+// GetDivisionByRank Checks the provided rank string against the rank regex of the divisions.
+// returns the division and nil if the rank string matches any regex pattern.
 func GetDivisionByRank(rank string) (Division, error) {
 	for _, div := range shortForm {
 
