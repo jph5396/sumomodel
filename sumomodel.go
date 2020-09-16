@@ -3,6 +3,7 @@ package sumomodel
 import (
 	"fmt"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"unicode"
@@ -85,7 +86,56 @@ func (r *Rikishi) PrintData() {
 
 //SortRikishiByRank takes a list of Rikishi's and sorts it by rank.
 func SortRikishiByRank(r []Rikishi) ([]Rikishi, error) {
-	return []Rikishi{}, nil
+
+	sort.SliceStable(r,
+		func(i int, j int) bool {
+			ranki, err := CreateRankModelFromString(r[i].Rank)
+			if err != nil {
+				panic(err)
+			}
+			rankj, err := CreateRankModelFromString(r[j].Rank)
+			if err != nil {
+				panic(err)
+			}
+			rankValue := map[string]int{
+				"Y":  1,
+				"O":  2,
+				"S":  3,
+				"K":  4,
+				"M":  5,
+				"J":  6,
+				"Ms": 7,
+				"Sd": 8,
+				"Jd": 9,
+				"Jk": 10,
+			}
+
+			sideValue := map[string]int{
+				"e": 1,
+				"w": 2,
+				"":  3,
+			}
+			if rankValue[ranki.Name] < rankValue[rankj.Name] {
+				return true
+			} else if rankValue[ranki.Name] > rankValue[rankj.Name] {
+				return false
+			} else {
+				if ranki.Num < rankj.Num {
+					return true
+				} else if ranki.Num > rankj.Num {
+					return false
+				} else {
+					if sideValue[ranki.Side] < sideValue[rankj.Side] {
+						return true
+					}
+					return false
+				}
+			}
+
+		})
+
+	return r, nil
+
 }
 
 //SortBouts sorts bouts by bashoId, day, then bout number.

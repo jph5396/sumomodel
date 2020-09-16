@@ -29,3 +29,42 @@ func TestCreateRankModelFromString(t *testing.T) {
 
 	}
 }
+
+func TestSortRikishiByRank(t *testing.T) {
+	r1 := Rikishi{Rank: "S1e"}
+	r2 := Rikishi{Rank: "Ms10w"}
+	r3 := Rikishi{Rank: "Ms10TD"}
+	r4 := Rikishi{Rank: "J12e"}
+	r5 := Rikishi{Rank: "S1w"}
+
+	tests := []struct {
+		data []Rikishi
+		want []Rikishi
+	}{
+		{[]Rikishi{r3, r4, r1}, []Rikishi{r1, r4, r3}},
+		//fail on purpose
+		{[]Rikishi{r5, r1}, []Rikishi{r1, r5}},
+		{[]Rikishi{r3, r2}, []Rikishi{r2, r3}},
+	}
+
+	for _, test := range tests {
+		testCopy := make([]Rikishi, len(test.data))
+		copy(testCopy, test.data)
+		got, err := SortRikishiByRank(testCopy)
+		if err != nil {
+			t.Error(err.Error())
+		}
+
+		if len(test.data) != len(got) {
+			t.Errorf("unequal length of arrays. \n got %v \n want: %v", len(got), len(test.data))
+			break
+		}
+
+		for i, val := range got {
+			if val.Rank != test.want[i].Rank {
+				t.Errorf("sort order incorrect. \n got: %v \n want: %v", val.Rank, test.want[i].Rank)
+				break
+			}
+		}
+	}
+}
