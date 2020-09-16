@@ -42,7 +42,6 @@ func TestSortRikishiByRank(t *testing.T) {
 		want []Rikishi
 	}{
 		{[]Rikishi{r3, r4, r1}, []Rikishi{r1, r4, r3}},
-		//fail on purpose
 		{[]Rikishi{r5, r1}, []Rikishi{r1, r5}},
 		{[]Rikishi{r3, r2}, []Rikishi{r2, r3}},
 	}
