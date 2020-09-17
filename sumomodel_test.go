@@ -49,17 +49,17 @@ func TestSortRikishiByRank(t *testing.T) {
 	for _, test := range tests {
 		testCopy := make([]Rikishi, len(test.data))
 		copy(testCopy, test.data)
-		got, err := SortRikishiByRank(testCopy)
+		err := SortRikishiByRank(testCopy)
 		if err != nil {
 			t.Error(err.Error())
 		}
 
-		if len(test.data) != len(got) {
-			t.Errorf("unequal length of arrays. \n got %v \n want: %v", len(got), len(test.data))
+		if len(test.want) != len(testCopy) {
+			t.Errorf("unequal length of arrays. \n got %v \n want: %v", len(testCopy), len(test.want))
 			break
 		}
 
-		for i, val := range got {
+		for i, val := range testCopy {
 			if val.Rank != test.want[i].Rank {
 				t.Errorf("sort order incorrect. \n got: %v \n want: %v", val.Rank, test.want[i].Rank)
 				break

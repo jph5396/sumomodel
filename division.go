@@ -7,7 +7,7 @@ import (
 )
 
 type (
-	//Division Represents the a division of sumo wrestlers.
+	//Division Represents a division of sumo wrestlers.
 	// Each division contains an ID, the full name, a short version
 	// of the name, and a Regex string used to confirm if a rank is
 	// in said division.

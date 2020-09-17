@@ -85,7 +85,7 @@ func (r *Rikishi) PrintData() {
 }
 
 //SortRikishiByRank takes a list of Rikishi's and sorts it by rank.
-func SortRikishiByRank(r []Rikishi) ([]Rikishi, error) {
+func SortRikishiByRank(r []Rikishi) error {
 
 	sort.SliceStable(r,
 		func(i int, j int) bool {
@@ -115,32 +115,37 @@ func SortRikishiByRank(r []Rikishi) ([]Rikishi, error) {
 				"w": 2,
 				"":  3,
 			}
-			if rankValue[ranki.Name] < rankValue[rankj.Name] {
-				return true
-			} else if rankValue[ranki.Name] > rankValue[rankj.Name] {
-				return false
-			} else {
-				if ranki.Num < rankj.Num {
-					return true
-				} else if ranki.Num > rankj.Num {
-					return false
-				} else {
-					if sideValue[ranki.Side] < sideValue[rankj.Side] {
-						return true
-					}
-					return false
-				}
+
+			if rankValue[ranki.Name] != rankValue[rankj.Name] {
+				return rankValue[ranki.Name] < rankValue[rankj.Name]
+			} else if ranki.Num != rankj.Num {
+				return ranki.Num < rankj.Num
 			}
+			return sideValue[ranki.Side] < sideValue[rankj.Side]
 
 		})
 
-	return r, nil
+	return nil
 
 }
 
 //SortBouts sorts bouts by bashoId, day, then bout number.
-func SortBouts(b []Bout) ([]Bout, error) {
-	return []Bout{}, nil
+func SortBouts(b []Bout) error {
+
+	sort.SliceStable(b,
+		func(i int, j int) bool {
+			bouti := b[i]
+			boutj := b[j]
+
+			if bouti.BashoID != boutj.BashoID {
+				return bouti.BashoID < boutj.BashoID
+			} else if bouti.Day != boutj.Day {
+				return bouti.Day < boutj.Day
+			}
+			return bouti.Boutnum < boutj.Boutnum
+		})
+
+	return nil
 }
 
 //CreateRankModelFromString takes a string and attempts to convert
