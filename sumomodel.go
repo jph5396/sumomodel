@@ -11,9 +11,12 @@ import (
 
 type (
 	// Rikishi data struct.
+	// the Name variable refers to the shikona, while the RealName variable is the
+	// rikishis given legal name.
 	Rikishi struct {
 		Id         int
 		Name       string
+		RealName   string
 		Rank       string
 		Heya       string
 		Shusshin   string
